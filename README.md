@@ -1,5 +1,5 @@
 # Ku-polls
-The web application created with django that users can create polls for other user to vote and pick their choice.
+The web application created with django that admin can create polls and choice for user to vote and pick their choice.
 ## Project Documents
 [Ku-polls Wiki Homepage](https://github.com/sujinunt/ku-polls/wiki)
 * [Vision Statement](https://github.com/sujinunt/ku-polls/wiki/Vision-Statement)
