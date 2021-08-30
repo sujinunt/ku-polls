@@ -1,0 +1,17 @@
+li a {
+    color: green;
+}
+.nav-link.disabled {
+    color: #43ff05;
+    pointer-events: none;
+    cursor: default;
+}
+
+body {
+    background-color: black;
+  }
+
+head_poll{
+    color: #43ff05;
+    font-size: 30px;
+}

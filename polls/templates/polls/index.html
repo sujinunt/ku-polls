@@ -1,9 +1,53 @@
-{% if latest_question_list %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+    <title>ku-polls</title>
+  </head>
+  <body>
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+          <h1 class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">KU-POLLS</h1>
+        </li>
+      </ul>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col">
+            <head_poll>Polls List</head_poll>
+            {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
-    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        <div id="list-example" class="list-group">
+            <a class="list-group-item list-group-item-action" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+            <h1></h1>
+          </div>
     {% endfor %}
     </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+          </div>
+          <div class="col">
+          </div>
+        </div>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+  
+</html>
