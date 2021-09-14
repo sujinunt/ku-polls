@@ -1,7 +1,8 @@
 #from django.http import HttpResponse, Http404
+from django.contrib import messages
 from django.http.response import HttpResponseRedirect
 #from django.template import loader
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
@@ -23,12 +24,18 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
-    def get_queryset(self):
-        """
-        Excludes any questions that aren't published yet.
-        """
-        return Question.objects.filter(pub_date__lte=timezone.now())
-
+def detail(request, pk):
+    """Show question detail to user"""
+    question = get_object_or_404(Question, pk=pk)
+    if question.pub_date > timezone.now():
+        messages.error(request, f"The question is not available for vote")
+        return redirect("polls:index")
+    elif timezone.now() >= question.end_date:
+        messages.error(request, f"The question vote is ended")
+        return redirect("polls:index")
+    else:
+        context = {'question': question}
+        return render(request, 'polls/detail.html', context)
 
 class ResultsView(generic.DetailView):
     """Show question results to User"""
