@@ -6,6 +6,7 @@ class Question(models.Model):
     """The polls question with question text and date published"""
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    end_date = models.DateTimeField('end date')
 
     def __str__(self):
         """String of the question text"""
@@ -15,6 +16,16 @@ class Question(models.Model):
         """Return True if the question is published in the last 1 day"""
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
+
+    def is_published(self):
+        """Return True if current date is on or after question's publication date"""
+        now = timezone.now()
+        return self.pub_date <= now < self.end_date
+
+    def can_vote(self):
+        """Return True if voting is currently allowed for this question"""
+        now = timezone.now()
+        return self.pub_date <= now < self.end_date
 
 class Choice(models.Model):
     """The polls answer choice of the polls question"""
