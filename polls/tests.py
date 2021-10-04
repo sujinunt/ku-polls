@@ -1,8 +1,10 @@
+"""Test model and view."""
 import datetime
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 from .models import Question
+
 
 def create_question(question_text, days):
     """
@@ -12,7 +14,8 @@ def create_question(question_text, days):
     """
     time = timezone.now() + datetime.timedelta(days=days)
     time_end = timezone.now() + datetime.timedelta(days=days+3)
-    return Question.objects.create(question_text=question_text, pub_date=time,end_date=time_end)
+    return Question.objects.create(question_text=question_text, pub_date=time, end_date=time_end)
+
 
 class QuestionModelTests(TestCase):
     """Test Question Model that method is work correctly."""
@@ -46,7 +49,7 @@ class QuestionModelTests(TestCase):
 
     def test_question_is_published(self):
         """is_published() returns True if current date is on or after
-        question’s publication date"""
+        question’s publication date."""
         time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
         time_end = timezone.now() + datetime.timedelta(days=3, seconds=1)
         pub_question = Question(pub_date=time, end_date=time_end)
@@ -54,33 +57,32 @@ class QuestionModelTests(TestCase):
 
     def test_question_is_not_published(self):
         """is_published() returns False if current date is after
-        question’s end date"""
+        question’s end date."""
         time = timezone.now() - datetime.timedelta(days=3, seconds=1)
         time_end = timezone.now() - datetime.timedelta(days=1, seconds=1)
         pub_question = Question(pub_date=time, end_date=time_end)
         self.assertIs(pub_question.is_published(), False)
 
     def test_question_can_vote(self):
-        """can_vote() returns True if voting is currently allowed for this question"""
+        """can_vote() returns True if voting is currently allowed for this question."""
         time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
         time_end = timezone.now() + datetime.timedelta(days=3, seconds=1)
         pub_question = Question(pub_date=time, end_date=time_end)
         self.assertIs(pub_question.can_vote(), True)
 
     def test_question_can_not_vote(self):
-        """can_vote() returns False if voting is currently not allowed for this question"""
+        """can_vote() returns False if voting is currently not allowed for this question."""
         time = timezone.now() - datetime.timedelta(days=3, seconds=1)
         time_end = timezone.now() - datetime.timedelta(days=1, seconds=1)
         pub_question = Question(pub_date=time, end_date=time_end)
         self.assertIs(pub_question.can_vote(), False)
 
+
 class QuestionIndexViewTests(TestCase):
     """Test the view is correctly."""
 
     def test_no_questions(self):
-        """
-        If no questions exist, an appropriate message is displayed.
-        """
+        """If no questions exist, an appropriate message is displayed."""
         response = self.client.get(reverse('polls:index'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No polls are available.")
@@ -122,9 +124,7 @@ class QuestionIndexViewTests(TestCase):
         )
 
     def test_two_past_questions(self):
-        """
-        The questions index page may display multiple questions.
-        """
+        """The questions index page may display multiple questions."""
         create_question(question_text="Past question 1.", days=-30)
         create_question(question_text="Past question 2.", days=-5)
         response = self.client.get(reverse('polls:index'))
@@ -132,6 +132,7 @@ class QuestionIndexViewTests(TestCase):
             response.context['latest_question_list'],
             ['<Question: Past question 2.>', '<Question: Past question 1.>']
         )
+
 
 class QuestionDetailViewTests(TestCase):
     """Test Question Detail view that work correctly."""

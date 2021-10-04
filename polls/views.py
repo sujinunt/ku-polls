@@ -1,7 +1,6 @@
-#from django.http import HttpResponse, Http404
+"""View of Django web"""
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect
-#from django.template import loader
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
@@ -18,6 +17,7 @@ class IndexView(generic.ListView):
         """Return the last five published questions but not including those set to be published in the future"""
         return Question.objects.filter(
         pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+
 
 class DetailView(generic.DetailView):
     """Show question detail to User"""
@@ -36,6 +36,7 @@ def detail(request, pk):
     else:
         context = {'question': question}
         return render(request, 'polls/detail.html', context)
+
 
 class ResultsView(generic.DetailView):
     """Show question results to User"""
