@@ -1,0 +1,4 @@
+# required packages
+Django
+coverage
+python-decouple

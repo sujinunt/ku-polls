@@ -1,6 +1,8 @@
+"""Question and Choice Models"""
 import datetime
 from django.db import models
 from django.utils import timezone
+
 
 class Question(models.Model):
     """The polls question with question text and date published"""
@@ -26,6 +28,7 @@ class Question(models.Model):
         """Return True if voting is currently allowed for this question"""
         now = timezone.now()
         return self.pub_date <= now < self.end_date
+
 
 class Choice(models.Model):
     """The polls answer choice of the polls question"""
