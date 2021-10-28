@@ -1,12 +1,63 @@
-<h1>{{ question.question_text }}</h1>
-<a class="btn btn-primary" href="{% url 'polls:index' %}" role="button">Back to List of Polls</a>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-{% endfor %}
-<input type="submit" value="Vote">
-</form>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>{{ question.question_text }} result</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1>{{ question.question_text }}</h1>
+            <a class="btn btn-primary" href="{% url 'polls:index' %}" role="button">Back to List of Polls</a>
+            {% if user.is_authenticated %}
+          <a href="http://127.0.0.1:8000/accounts/logout/" class="btn btn-primary">Logout</a>
+          {% else %}
+          <a href="http://127.0.0.1:8000/accounts/login/" class="btn btn-primary">Login</a>
+          {% endif %}
+          </div>
+          <div class="col">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col">
+            <ul>
+                <form action="{% url 'polls:vote' question.id %}" method="post">
+                    {% csrf_token %}
+                    {% for choice in question.choice_set.all %}
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                    {% endfor %}
+                    <input type="submit" class="btn btn-primary" value="Vote">
+                    </form>
+                </ul>
+          </div>
+          <div class="col">
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+
