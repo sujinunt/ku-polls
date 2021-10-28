@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from .models import Question, Choice
+from .models import Question, Choice, Vote
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 
@@ -51,6 +52,9 @@ class ResultsView(generic.DetailView):
 @login_required(login_url='/accounts/login/')
 def vote(request, question_id):
     """Show user vote."""
+    user = request.user
+    print("current user is", user.id, "login", user.username)
+    print("Real name:", user.first_name, user.last_name)
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
@@ -60,6 +64,8 @@ def vote(request, question_id):
             'error_message': "You didn't select choice answer."
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+        Vote.objects.update_or_create(user=user, question=question, defaults={'selected_choice': selected_choice})
+        for choice in question.choice_set.all():
+            choice.votes = Vote.objects.filter(question=question).filter(selected_choice=choice).count()
+            choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
