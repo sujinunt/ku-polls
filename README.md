@@ -11,3 +11,4 @@ The web application created with django that users can create polls for other us
 Iteration
 * [Iteration 1](https://github.com/sujinunt/ku-polls/wiki/Iteration-1)
 * [Iteration 2](https://github.com/sujinunt/ku-polls/wiki/Iteration-2)
+* [Iteration 3](https://github.com/sujinunt/ku-polls/wiki/Iteration-3)
