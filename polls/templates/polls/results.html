@@ -17,6 +17,11 @@
             <h1>{{ question.question_text }}</h1>
             <a class="btn btn-primary" href="{% url 'polls:index' %}" role="button">Back to List of Polls</a>
             <a class="btn btn-secondary" href="{% url 'polls:detail' question.id %}" role="button">Vote again?</a>
+            {% if user.is_authenticated %}
+          <a href="http://127.0.0.1:8000/accounts/logout/" class="btn btn-primary">Logout</a>
+          {% else %}
+          <a href="http://127.0.0.1:8000/accounts/login/" class="btn btn-primary">Login</a>
+          {% endif %}
           </div>
           <div class="col">
           </div>
